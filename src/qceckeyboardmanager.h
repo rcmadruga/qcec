@@ -1,9 +1,11 @@
 #ifndef QCECKEYBOARDMANAGER
 #define QCECKEYBOARDMANAGER
 
-#include <libcec/cec.h>
-
 #include <QObject>
+
+namespace CEC {
+class ICECAdapter;
+};
 
 class QCECKeyboardManager : public QObject {
 public:

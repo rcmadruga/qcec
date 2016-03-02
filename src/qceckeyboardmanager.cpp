@@ -1,7 +1,8 @@
 #include "qceckeyboardmanager.h"
 
-// required by following header
+// required by cecloader.h
 #include <iostream>
+#include <libcec/cec.h>
 #include <libcec/cecloader.h>
 
 #include "bcm_host.h"
@@ -9,7 +10,7 @@
 #include <qpa/qwindowsysteminterface.h>
 #include <QDebug>
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 
 int handle_keypress(void* not_used, const CEC::cec_keypress msg)
 {
@@ -62,6 +63,7 @@ QCECKeyboardManager::QCECKeyboardManager(QObject *p)
     cec_callbacks.Clear();
 
     QString cecAdvertizedName = "QPi";
+
     if (!qApp->applicationName().isNull())
         cecAdvertizedName = qApp->applicationName();
 
@@ -72,31 +74,25 @@ QCECKeyboardManager::QCECKeyboardManager(QObject *p)
     cec_config.bActivateSource = 0;
     cec_config.callbacks = &cec_callbacks;
     cec_config.deviceTypes.Add(CEC::CEC_DEVICE_TYPE_RECORDING_DEVICE);
-    cec_config.deviceTypes.Add(CEC::CEC_DEVICE_TYPE_TUNER);
-    cec_config.deviceTypes.Add(CEC::CEC_DEVICE_TYPE_PLAYBACK_DEVICE);
-    cec_config.deviceTypes.Add(CEC::CEC_DEVICE_TYPE_AUDIO_SYSTEM);
 
     cec_callbacks.CBCecKeyPress = &handle_keypress;
 
     cec_adapter = LibCecInitialise(&cec_config);
 
     if(!cec_adapter) {
-        qWarning("Could not create CEC adaptor with current config");
-        return;
+        qDebug() << "Could not create CEC adaptor with current config";
     }
 
-    CEC::cec_adapter devices[255];
-    int devices_found = cec_adapter->FindAdapters(devices, 255, NULL);
+    CEC::cec_adapter devices[10];
+    int devices_found = cec_adapter->FindAdapters(devices, 10, NULL);
     if(devices_found < 1) {
-        qWarning("No CEC devices found");
+        qDebug() << "No CEC devices found";
         close();
-        return;
     }
 
     if(!cec_adapter->Open(devices[0].comm)) {
-        qWarning("Can't open device 0 (assumed to be TV)");
+        qDebug() << "Can't open device 0 (assumed to be TV)";
         close();
-        return;
     }
 }
 
@@ -106,6 +102,7 @@ QCECKeyboardManager::~QCECKeyboardManager() {
 
 void QCECKeyboardManager::close()
 {
+    qDebug() << "Closing the CEC device";
     cec_adapter->Close();
     UnloadLibCec(cec_adapter);
     cec_adapter = 0;
