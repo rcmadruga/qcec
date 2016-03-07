@@ -36,6 +36,60 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
     case CEC::CEC_USER_CONTROL_CODE_RIGHT:
         key = Qt::Key_Right;
         break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER0:
+        key = Qt::Key_0;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER1:
+        key = Qt::Key_1;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER2:
+        key = Qt::Key_2;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER3:
+        key = Qt::Key_3;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER4:
+        key = Qt::Key_4;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER5:
+        key = Qt::Key_5;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER6:
+        key = Qt::Key_6;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER7:
+        key = Qt::Key_7;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER8:
+        key = Qt::Key_8;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_NUMBER9:
+        key = Qt::Key_9;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_F1_BLUE:
+        key = Qt::Key_Launch0;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_F2_RED:
+        key = Qt::Key_Launch1;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_F3_GREEN:
+        key = Qt::Key_Launch2;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_F4_YELLOW:
+        key = Qt::Key_Launch3;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_CHANNEL_UP:
+        key = Qt::Key_PageUp;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_CHANNEL_DOWN:
+        key = Qt::Key_PageDown;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_FAST_FORWARD:
+        key = Qt::Key_MediaNext;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_REWIND:
+        key = Qt::Key_MediaPrevious;
+        break;
     default: break;
     };
 
@@ -46,6 +100,9 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
                                                        0, 0, 0, 0,
                                                        QString(),
                                                        false);
+    } else {
+        qDebug() << "CEC keypress" << msg.keycode << "received but currently not handled by the qcec keyboard plugin";
+        qDebug() << "Feel free to extend it: I don't trust vendor compliance much";
     }
 
     return 0;
