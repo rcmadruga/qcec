@@ -1,3 +1,42 @@
+/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtGui module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
 #include "qceckeyboardmanager.h"
 
 // required by cecloader.h
@@ -19,52 +58,69 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
     // Mapping is semi arbitrarily based on the behavior of my own TV
 
     Qt::Key key = Qt::Key(0);
+    // nativeKeyCode's manually looked up via xev
+    int nativeKeyCode = -1;
     switch(msg.keycode)
     {
     case CEC::CEC_USER_CONTROL_CODE_SELECT:
         key = Qt::Key_Return;
+        nativeKeyCode = 36;
         break;
     case CEC::CEC_USER_CONTROL_CODE_UP:
         key = Qt::Key_Up;
+        nativeKeyCode = 111;
         break;
     case CEC::CEC_USER_CONTROL_CODE_DOWN:
         key = Qt::Key_Down;
+        nativeKeyCode = 116;
         break;
     case CEC::CEC_USER_CONTROL_CODE_LEFT:
         key = Qt::Key_Left;
+        nativeKeyCode = 113;
         break;
     case CEC::CEC_USER_CONTROL_CODE_RIGHT:
         key = Qt::Key_Right;
+        nativeKeyCode = 114;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER0:
         key = Qt::Key_0;
+        nativeKeyCode = 19;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER1:
         key = Qt::Key_1;
+        nativeKeyCode = 10;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER2:
         key = Qt::Key_2;
+        nativeKeyCode = 11;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER3:
         key = Qt::Key_3;
+        nativeKeyCode = 12;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER4:
         key = Qt::Key_4;
+        nativeKeyCode = 13;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER5:
         key = Qt::Key_5;
+        nativeKeyCode = 14;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER6:
         key = Qt::Key_6;
+        nativeKeyCode = 15;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER7:
         key = Qt::Key_7;
+        nativeKeyCode = 16;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER8:
         key = Qt::Key_8;
+        nativeKeyCode = 17;
         break;
     case CEC::CEC_USER_CONTROL_CODE_NUMBER9:
         key = Qt::Key_9;
+        nativeKeyCode = 18;
         break;
     case CEC::CEC_USER_CONTROL_CODE_F1_BLUE:
         key = Qt::Key_Launch0;
@@ -80,15 +136,19 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
         break;
     case CEC::CEC_USER_CONTROL_CODE_CHANNEL_UP:
         key = Qt::Key_PageUp;
+        nativeKeyCode = 112;
         break;
     case CEC::CEC_USER_CONTROL_CODE_CHANNEL_DOWN:
         key = Qt::Key_PageDown;
+        nativeKeyCode = 117;
         break;
     case CEC::CEC_USER_CONTROL_CODE_FAST_FORWARD:
         key = Qt::Key_MediaNext;
+        nativeKeyCode = 176;
         break;
     case CEC::CEC_USER_CONTROL_CODE_REWIND:
         key = Qt::Key_MediaPrevious;
+        nativeKeyCode = 177;
         break;
     default: break;
     };
@@ -97,7 +157,10 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
         QWindowSystemInterface::handleExtendedKeyEvent(0,
                                                        (msg.duration ? QEvent::KeyRelease : QEvent::KeyPress),
                                                        key,
-                                                       0, 0, 0, 0,
+                                                       0,
+                                                       nativeKeyCode,
+                                                       0,
+                                                       0,
                                                        QString(),
                                                        false);
     } else {
