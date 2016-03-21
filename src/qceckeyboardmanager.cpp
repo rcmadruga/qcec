@@ -123,16 +123,20 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
         nativeKeyCode = 18;
         break;
     case CEC::CEC_USER_CONTROL_CODE_F1_BLUE:
-        key = Qt::Key_Launch0;
+        key = Qt::Key_F1;
+        nativeKeyCode = 67;
         break;
     case CEC::CEC_USER_CONTROL_CODE_F2_RED:
-        key = Qt::Key_Launch1;
+        key = Qt::Key_F2;
+        nativeKeyCode = 68;
         break;
     case CEC::CEC_USER_CONTROL_CODE_F3_GREEN:
-        key = Qt::Key_Launch2;
+        key = Qt::Key_F3;
+        nativeKeyCode = 69;
         break;
     case CEC::CEC_USER_CONTROL_CODE_F4_YELLOW:
-        key = Qt::Key_Launch3;
+        key = Qt::Key_F4;
+        nativeKeyCode = 70;
         break;
     case CEC::CEC_USER_CONTROL_CODE_CHANNEL_UP:
         key = Qt::Key_PageUp;
@@ -149,6 +153,14 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
     case CEC::CEC_USER_CONTROL_CODE_REWIND:
         key = Qt::Key_MediaPrevious;
         nativeKeyCode = 177;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_EXIT:
+        key = Qt::Key_Escape;
+        nativeKeyCode = 9;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_AN_RETURN:
+        key = Qt::Key_Backspace;
+        nativeKeyCode = 22;
         break;
     default: break;
     };
