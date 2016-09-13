@@ -19,7 +19,7 @@ build() {
   local pi_lib_dir="${pi_sysroot}/opt/vc/lib"
   local pi_include_dir="${pi_sysroot}/opt/vc/include"
 
-  local compiler_prefix="/opt/arm-sirspuddarch-linux-gnueabihf/bin/arm-sirspuddarch-linux-gnueabihf-"
+  local compiler_prefix="/opt/armv7-rpi2-linux-gnueabihf/bin/armv7-rpi2-linux-gnueabihf-"
 
   # libcec cross compile suggestion
   #cmake_cmd="cmake -DCMAKE_TOOLCHAIN_FILE=${libcec_dir}/cmake/CrossCompile.cmake \
