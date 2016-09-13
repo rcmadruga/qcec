@@ -54,6 +54,7 @@ build() {
                   -DCMAKE_INSTALL_PREFIX:PATH=${output_lib_dir} \
                   -DRPI_INCLUDE_DIR=${pi_include_dir} \
                   -DRPI_LIB_DIR=${pi_lib_dir} \
+                  -DSKIP_PYTHON_WRAPPER=1 \
                   "
 
   # --trace \
