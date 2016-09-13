@@ -8,15 +8,18 @@ base_path=`dirname $script_path`
 thirdparty_dir="$(cd ${base_path}/.. && pwd)"
 toplevel_dir=$(cd ${thirdparty_dir}/.. && pwd)
 
-if [[ -z $_piver ]] && [[ -n $LOCAL_PI_VER ]]; then
-  _piver=$LOCAL_PI_VER
-else
+if [[ -z $piver ]] && [[ -n $LOCAL_PI_VER ]]; then
+  piver=$LOCAL_PI_VER
+fi
+
+if [[ -z $piver ]]; then
   echo "Cant build without an advertized Pi version"
   exit 1
 fi
 
-if [[ -n "$_piver" ]]; then
-  _qmake="/opt/qt-sdk-raspberry-pi${_piver}/bin/qmake"
+if [[ -n "$piver" ]]; then
+  qmake="/opt/qt-sdk-raspberry-pi${piver}/bin/qmake"
+  compiler_prefix=$(cat /opt/qt-sdk-raspberry-pi${piver}/mkspecs/qdevice.pri | grep CROSS | awk '{ print $3}')
 fi
 
 build() {
@@ -24,14 +27,12 @@ build() {
   local platform_dir="${thirdparty_dir}/platform"
   local output_lib_dir="${toplevel_dir}/local"
 
-  local pi_sysroot=$(${_qmake} -query QT_SYSROOT)
+  local pi_sysroot=$(${qmake} -query QT_SYSROOT)
   echo "Building against the following sysroot: $pi_sysroot"
   # revolting but -sysroot does not seem to impact include paths?!
   # ie they are not relative to the sysroot, which they should be
   local pi_lib_dir="${pi_sysroot}/opt/vc/lib"
   local pi_include_dir="${pi_sysroot}/opt/vc/include"
-
-  local compiler_prefix="/opt/armv7-rpi2-linux-gnueabihf/bin/armv7-rpi2-linux-gnueabihf-"
 
   # libcec cross compile suggestion
   #cmake_cmd="cmake -DCMAKE_TOOLCHAIN_FILE=${libcec_dir}/cmake/CrossCompile.cmake \
