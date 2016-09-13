@@ -1,19 +1,31 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
+#set -x
 
 script_path=$(readlink -f $0)
 base_path=`dirname $script_path`
 thirdparty_dir="$(cd ${base_path}/.. && pwd)"
 toplevel_dir=$(cd ${thirdparty_dir}/.. && pwd)
 
+if [[ -z $_piver ]] && [[ -n $LOCAL_PI_VER ]]; then
+  _piver=$LOCAL_PI_VER
+else
+  echo "Cant build without an advertized Pi version"
+  exit 1
+fi
+
+if [[ -n "$_piver" ]]; then
+  _qmake="/opt/qt-sdk-raspberry-pi${_piver}/bin/qmake"
+fi
+
 build() {
   local libcec_dir="${thirdparty_dir}/libcec"
   local platform_dir="${thirdparty_dir}/platform"
   local output_lib_dir="${toplevel_dir}/local"
 
-  local pi_sysroot="/mnt/pi"
+  local pi_sysroot=$(${_qmake} -query QT_SYSROOT)
+  echo "Building against the following sysroot: $pi_sysroot"
   # revolting but -sysroot does not seem to impact include paths?!
   # ie they are not relative to the sysroot, which they should be
   local pi_lib_dir="${pi_sysroot}/opt/vc/lib"
