@@ -67,6 +67,22 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
     int nativeKeyCode = -1;
     switch(msg.keycode)
     {
+    case CEC::CEC_USER_CONTROL_CODE_PLAY:
+        key = Qt::Key_MediaPlay;
+        nativeKeyCode = 172;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_STOP:
+        key = Qt::Key_MediaStop;
+        nativeKeyCode = 174;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_REWIND:
+        key = Qt::Key_MediaPrevious;
+        nativeKeyCode = 173;
+        break;
+    case CEC::CEC_USER_CONTROL_CODE_FAST_FORWARD:
+        key = Qt::Key_MediaNext;
+        nativeKeyCode = 171;
+        break;
     case CEC::CEC_USER_CONTROL_CODE_SELECT:
         key = Qt::Key_Return;
         nativeKeyCode = 36;
