@@ -51,6 +51,11 @@
 
 #include <QGuiApplication>
 
+int log_keypress(void* not_used, const CEC::cec_keypress msg)
+{
+    qDebug() << "Received CEC keycode" << msg.keycode;
+}
+
 int handle_keypress(void* not_used, const CEC::cec_keypress msg)
 {
     Q_UNUSED(not_used);
@@ -183,7 +188,7 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
     return 0;
 }
 
-QCECKeyboardManager::QCECKeyboardManager(QObject *p)
+QCECKeyboardManager::QCECKeyboardManager(QObject *p, bool logEvents)
     : QObject(p),
       cec_adapter(0)
 {
@@ -207,7 +212,10 @@ QCECKeyboardManager::QCECKeyboardManager(QObject *p)
     cec_config.callbacks = &cec_callbacks;
     cec_config.deviceTypes.Add(CEC::CEC_DEVICE_TYPE_RECORDING_DEVICE);
 
-    cec_callbacks.CBCecKeyPress = &handle_keypress;
+    if (logEvents)
+        cec_callbacks.CBCecKeyPress = &log_keypress;
+    else
+        cec_callbacks.CBCecKeyPress = &handle_keypress;
 
     cec_adapter = LibCecInitialise(&cec_config);
 
@@ -226,6 +234,8 @@ QCECKeyboardManager::QCECKeyboardManager(QObject *p)
         qDebug() << "Can't open device 0 (assumed to be TV)";
         close();
     }
+
+    qDebug() << "Successfully created Qt CEC input plugin";
 }
 
 QCECKeyboardManager::~QCECKeyboardManager() {

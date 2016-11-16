@@ -48,7 +48,7 @@ class ICECAdapter;
 
 class QCECKeyboardManager : public QObject {
 public:
-    QCECKeyboardManager(QObject *p = 0);
+    QCECKeyboardManager(QObject *p = 0, bool logEvents = false);
     ~QCECKeyboardManager();
 
     void close();
