@@ -167,14 +167,6 @@ int handle_keypress(void* not_used, const CEC::cec_keypress msg)
         key = Qt::Key_PageDown;
         nativeKeyCode = 117;
         break;
-    case CEC::CEC_USER_CONTROL_CODE_FAST_FORWARD:
-        key = Qt::Key_MediaNext;
-        nativeKeyCode = 176;
-        break;
-    case CEC::CEC_USER_CONTROL_CODE_REWIND:
-        key = Qt::Key_MediaPrevious;
-        nativeKeyCode = 177;
-        break;
     case CEC::CEC_USER_CONTROL_CODE_EXIT:
         key = Qt::Key_Escape;
         nativeKeyCode = 9;
