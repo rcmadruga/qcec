@@ -8,7 +8,7 @@ base_path=`dirname $script_path`
 thirdparty_dir="$(cd ${base_path}/.. && pwd)"
 toplevel_dir=$(cd ${thirdparty_dir}/.. && pwd)
 
-QT_SDK_DIR="~/raspi/qt5"
+QT_SDK_DIR=~/raspi/qt5
 
 if [[ -z $piver ]] && [[ -n $LOCAL_PI_VER ]]; then
   piver=$LOCAL_PI_VER
